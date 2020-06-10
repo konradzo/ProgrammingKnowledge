@@ -1,13 +1,40 @@
 package pl.kzochowski.ProgrammingKnowledge.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
+@Entity
 public class Subscription {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userId;
+
+    @NotNull
+    @OneToOne(mappedBy = "subscription", cascade = CascadeType.ALL)
+    private User user;
+
+    @NotNull
     private LocalDateTime activeFrom;
+
+    @NotNull
     private LocalDateTime activeUntil;
+
+    public Subscription(){}
+
+    public Subscription(User user, LocalDateTime activeFrom, LocalDateTime activeUntil){
+        this.user = user;
+        this.activeFrom = activeFrom;
+        this.activeUntil = activeUntil;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -15,14 +42,6 @@ public class Subscription {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public LocalDateTime getActiveFrom() {
@@ -41,19 +60,5 @@ public class Subscription {
         this.activeUntil = activeUntil;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Subscription that = (Subscription) o;
-        return id == that.id &&
-                userId == that.userId &&
-                Objects.equals(activeFrom, that.activeFrom) &&
-                Objects.equals(activeUntil, that.activeUntil);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userId, activeFrom, activeUntil);
-    }
 }

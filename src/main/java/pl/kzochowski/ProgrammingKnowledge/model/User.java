@@ -1,14 +1,45 @@
 package pl.kzochowski.ProgrammingKnowledge.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String surname;
+
+    @NotNull
     private String username;
+
+    @NotNull
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subscription_id")
     private Subscription subscription;
+
+    //todo cascading
+    @OneToMany(mappedBy = "user")
+    private List<ExamApproach> examApproachList;
+
+    public User() {
+    }
+
+    public User(String name, String surname, String username, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+    }
 
     public int getId() {
         return id;

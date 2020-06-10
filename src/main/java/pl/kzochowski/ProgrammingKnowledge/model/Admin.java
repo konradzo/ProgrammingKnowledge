@@ -1,6 +1,7 @@
 package pl.kzochowski.ProgrammingKnowledge.model;
 
-public class Admin extends User{
+import javax.persistence.Entity;
 
-    //todo
+@Entity
+public class Admin extends User {
 }

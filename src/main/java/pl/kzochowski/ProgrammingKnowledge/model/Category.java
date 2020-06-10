@@ -1,13 +1,39 @@
 package pl.kzochowski.ProgrammingKnowledge.model;
 
+
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String description;
+
+    //todo cascading
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Exam> examList;
+
+    //todo cascading
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<ExamApproach> examApproaches;
+
+    public Category() {
+    }
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     public int getId() {
         return id;
